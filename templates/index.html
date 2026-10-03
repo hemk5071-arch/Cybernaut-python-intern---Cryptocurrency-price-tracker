@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try { document.documentElement.dataset.theme = localStorage.getItem('cryptopulse-theme') || 'dark'; } catch {}</script>
+  <title>CryptoPulse | Live Market Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+  <style>.modal[hidden] { display: none; }</style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/luxon@3.5.0/build/global/luxon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.3.1/dist/chartjs-adapter-luxon.umd.min.js"></script>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div><p class="eyebrow">MARKET INTELLIGENCE</p><h1>Crypto<span>Pulse</span></h1><p class="subtitle">Live Cryptocurrency Market Tracker</p></div>
+      <div class="header-actions"><div class="status"><i id="status-dot"></i><span id="status-text">Connecting</span></div><button id="theme-toggle" class="button ghost theme-toggle" type="button" aria-label="Switch to light theme" title="Switch to light theme"><span id="theme-icon" aria-hidden="true">☼</span><span id="theme-label">Light mode</span></button><button id="refresh-button" class="button primary">Refresh now</button><a class="button ghost" href="/export/csv">Download CSV</a></div>
+    </header>
+    <section class="ticker"><span>GLOBAL MARKET SNAPSHOT</span><strong id="last-updated">Awaiting first update</strong><span class="pulse-line"></span><span>30 SEC REFRESH</span></section>
+    <section class="summary-grid"><article><span>Cryptocurrencies tracked</span><strong id="tracked">--</strong></article><article><span>Highest price</span><strong id="highest">--</strong></article><article><span>Top 24h gainer</span><strong id="gainer">--</strong></article><article><span>Active alerts</span><strong id="alerts">--</strong></article></section>
+    <section class="chart-section"><div class="chart-heading"><div><p class="eyebrow">REAL-TIME PRICE MOVEMENT</p><h2>Live Market Chart</h2></div><label class="coin-select-label">Select Cryptocurrency<select id="chart-coin" aria-label="Select Cryptocurrency"><option>Loading...</option></select></label></div><div class="chart-toolbar"><div class="range-controls" role="group" aria-label="Chart time range"><button type="button" class="range-button active" data-range="all">ALL</button><button type="button" class="range-button" data-range="1h">1H</button><button type="button" class="range-button" data-range="6h">6H</button><button type="button" class="range-button" data-range="24h">24H</button><button type="button" class="range-button" data-range="7d">7D</button></div><span id="chart-source" class="source-badge">Waiting for data</span></div><div class="chart-stats"><div><span>Current price</span><strong id="chart-current">--</strong><small id="chart-symbol">--</small></div><div><span>24h change</span><strong id="chart-change">--</strong></div><div><span>High</span><strong id="chart-high">--</strong></div><div><span>Low</span><strong id="chart-low">--</strong></div></div><div class="live-chart-wrap"><canvas id="live-chart" aria-label="Live cryptocurrency price chart"></canvas><div id="chart-message" class="chart-message">Loading historical data...</div></div></section>
+    <section class="control-panel"><div><p class="eyebrow">FILTER MARKET</p><h2>Find your signal</h2></div><div class="filters"><label>Minimum price<input id="min-price" type="number" min="0" placeholder="$ 0.00"></label><label>Minimum 24h change<input id="min-change" type="number" placeholder="% 0.00"></label><label>Alert threshold<input id="alert-threshold" type="number" value="5" placeholder="% 5.00"></label><button id="apply-button" class="button primary">Apply filters</button><button id="reset-button" class="button ghost">Reset</button></div></section>
+    <section class="market-section"><div class="section-heading"><div><p class="eyebrow">LIVE DATA</p><h2>Top market movers</h2></div><span id="data-source" class="source-badge">Loading</span></div><div id="message" class="message" hidden></div><div class="table-wrap"><table><thead><tr><th>#</th><th>Cryptocurrency</th><th>Price</th><th>24h change</th><th>Market cap</th><th>Alert</th><th></th></tr></thead><tbody id="coin-rows"><tr><td colspan="7" class="empty">Loading market data...</td></tr></tbody></table></div></section>
+  </main>
+  <div id="modal" class="modal" hidden aria-hidden="true"><div class="modal-card"><button id="close-modal" class="close" type="button" aria-label="Close history">&times;</button><p class="eyebrow">HISTORICAL DATA</p><h2 id="chart-title">Price history</h2><div class="chart-box"><canvas id="history-chart"></canvas></div></div></div>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
